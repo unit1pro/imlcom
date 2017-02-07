@@ -8,6 +8,7 @@ class Songs extends CI_Controller {
         $this->load->model('user_song_model');
         $this->load->model('SongCat_model');
         $this->load->model('User_model');
+        $this->load->model('UserType_model');
 //        $this->load->library('session');
     }
 
@@ -26,7 +27,6 @@ class Songs extends CI_Controller {
     }
 
     function add() {
-
         $session_data = $this->session->userdata('user_data');
         if (isset($session_data) && ($session_data['UID'])) {
             $imageUploadPath = UPLOADS . '/images';
@@ -54,7 +54,7 @@ class Songs extends CI_Controller {
                     if ($this->upload->do_upload('Image')) {
                         $datai = $this->upload->data();
                     } else {
-                        $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+                        $data['user_types'] = $this->UserType_model->get();
                         $data['songCats'] = $this->SongCat_model->get_data();
                         $data['success'] = false;
                         $data['msg'] = $this->upload->display_errors('<div class="alert alert-error">', '</div>');;
@@ -126,6 +126,7 @@ class Songs extends CI_Controller {
                     $sess_array = array();
                     $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
                     $data['songCats'] = $this->SongCat_model->get_data();
+                    print "<pre>";print_r($data['songCats']);exit;
                     $data['success'] = true;
                     $data['msg'] = "song added";
                     $data['page_title'] = "Add Songs";

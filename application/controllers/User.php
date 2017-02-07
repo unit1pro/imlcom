@@ -12,11 +12,11 @@ class User extends CI_Controller {
     function index() {
 
         $session_data = $this->session->userdata('user_data');
-//        print_r($session_data);exit;
         if (isset($session_data) && ($session_data['UID'])) {
-            $data['page_title'] = "Dashboard";
+            $data['artist_data'] = $this->User_model->get_data();
+            $data['page_title'] = "User List";
             $data['user_data'] = $session_data;
-            $data['page'] = "dashboard";
+            $data['page'] = "list_user";
             $this->load->view('backend/page', $data);
         } else {
             $this->session->unset_userdata('user_data');
