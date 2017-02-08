@@ -444,6 +444,22 @@
     });
 </script>
 
+
+<script>
+  $(document).ready(function() {
+    $('#Date').daterangepicker({
+      locale: {
+        format: 'DD-MM-YYYY'
+      },
+      showDropdowns: true,
+      singleDatePicker: true,
+      calender_style: "picker_4"
+    }, function(start, end, label) {
+      console.log(start.toISOString(), end.toISOString(), label);
+    });
+  });
+</script>
+
 <!-- datatables -->
 <script>
     $(document).ready(function () {

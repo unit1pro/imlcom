@@ -18,6 +18,5 @@ class index extends CI_Controller {
             $data['user_data'] = $session_data;
             $data['page'] = "home";
             $this->load->view('front/page', $data);
-        
     }
 }

@@ -76,10 +76,9 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Date">Date
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Date" name="Date" class="form-control col-md-7 col-xs-12">
+                                    <input id="Date" name="date" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                                 </div>
                             </div>
-                            <?php // var_dump($userType); ?>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserType">Song Category
                                 </label>
@@ -105,7 +104,7 @@
                                     <select name="UID[]" id="UID" class="form-control col-md-7 col-xs-12" multiple>
                                         <option value="0" disabled>Please Select At least One</option>
                                         <?php
-                                        if (isset($user_types) && !empty($type)) {
+                                        if (isset($user_types) && !empty($user_types)) {          
                                             foreach ($user_types as $type) {
                                                 ?>
                                                 <option value="<?php echo $type['ID'] ?>"><?php echo $type['User_Type']; ?></option>
