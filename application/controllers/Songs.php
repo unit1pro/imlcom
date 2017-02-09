@@ -8,6 +8,7 @@ class Songs extends CI_Controller {
         $this->load->model('user_song_model');
         $this->load->model('SongCat_model');
         $this->load->model('User_model');
+        $this->load->model('UserType_model');
 //        $this->load->library('session');
     }
 
@@ -26,21 +27,18 @@ class Songs extends CI_Controller {
     }
 
     function add() {
-
         $session_data = $this->session->userdata('user_data');
         if (isset($session_data) && ($session_data['UID'])) {
             $imageUploadPath = UPLOADS . '/images';
             $videoUploadPath = UPLOADS . '/videos';
             $image_path = '';
             $video_path = '';
-//            print_r($videoUploadPath);
-//            print_r($_FILES);exit;
             $this->form_validation->set_rules('Song_Title', 'Song_Title', 'required');
             if ($this->form_validation->run()) {
                 $formdata = $this->input->post();
+//                print "<pre>";print_r($formdata);exit;
                 if (isset($_FILES['Image']) && $_FILES['Image']['name'] != '') {
                     $_FILES['Image']['name'] = date('YYmmddHisu') . str_replace(' ','',$_FILES['Image']['name']);
-                    
                     $config = array();
                     $config['upload_path'] = $videoUploadPath;
                     $config['allowed_types'] = 'gif|jpg|png';
@@ -54,7 +52,7 @@ class Songs extends CI_Controller {
                     if ($this->upload->do_upload('Image')) {
                         $datai = $this->upload->data();
                     } else {
-                        $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+                        $data['user_types'] = $this->UserType_model->get();
                         $data['songCats'] = $this->SongCat_model->get_data();
                         $data['success'] = false;
                         $data['msg'] = $this->upload->display_errors('<div class="alert alert-error">', '</div>');;
@@ -82,7 +80,8 @@ class Songs extends CI_Controller {
                     if ($this->upload->do_upload('Song_File_Name')) {
                         $datav = $this->upload->data();
                     } else {
-                        $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+//                        $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+                        $data['user_types'] = $this->UserType_model->get();
                         $data['songCats'] = $this->SongCat_model->get_data();
                         $data['success'] = false;
                         $data['msg'] = $this->upload->display_errors('<div class="alert alert-error">', '</div>');;
@@ -90,9 +89,7 @@ class Songs extends CI_Controller {
                         $data['page'] = 'add_songs';
                         $data['user_data'] = $session_data;
                         $this->load->view('backend/page', $data);
-//                        $datav['error'] = $this->upload->display_errors('<div class="alert alert-error">', '</div>');
                     }
-//                     print_r($datav);exit;
                    
                     
                 }
@@ -103,13 +100,16 @@ class Songs extends CI_Controller {
                     'director' => isset($formdata['director']) && $formdata['director'] ? $formdata['director'] : '',
                     'Writers' => isset($formdata['Writers']) && $formdata['Writers'] ? $formdata['Writers'] : '',
                     'synopsis' => isset($formdata['synopsis']) && $formdata['synopsis'] ? $formdata['synopsis'] : '',
-                    'Date' => isset($formdata['Date']) && $formdata['Date'] ? $formdata['Date'] : '',
-                    'Image' => isset($datai['file_name']) && $$datai['file_name'] ? $datai['file_name'] : '',
-                    'Song_File_Name' => isset($datav['file_name']) && $datav['file_name'] ? $datav['file_name'] : '',
+                    'Date' => isset($formdata['date']) && $formdata['date'] ? $formdata['date'] : '',
+                    'Image' => isset($_FILES['Image']['name']) && $_FILES['Image']['name'] ? $_FILES['Image']['name'] : '',
+                    'Song_status' => 0,
+                    'Song_File_Name' => isset($_FILES['Song_File_Name']['name']) && $_FILES['Song_File_Name']['name'] ? $_FILES['Song_File_Name']['name'] : '',
                     'isActive' => 1,
                     'Created_By' => $session_data['UID'],
                     'Updated_By' => $session_data['UID'],
                 );
+                
+//                print "<pre>";print_r($song_data);exit;
                 $result = $this->Songs_model->insert_data($song_data);
                 $user_song_data = array();
                 foreach ($formdata['UID'] as $uid) {
@@ -143,7 +143,7 @@ class Songs extends CI_Controller {
                     $this->load->view('backend/page', $data);
                 }
             } else {
-                $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+                $data['user_types'] = $this->UserType_model->get();
                 $data['songCats'] = $this->SongCat_model->get_data();
                 $data['page_title'] = "Add Songs";
                 $data['page'] = 'add_songs';

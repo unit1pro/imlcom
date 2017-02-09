@@ -25,6 +25,8 @@ class UserType_model extends CI_Model {
         }
         $query = $this->db->get();
         $result = $query->result_array();
+        
+//        print "<pre>";print_r($result);exit;
         return $result;
     }
 

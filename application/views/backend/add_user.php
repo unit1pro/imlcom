@@ -25,15 +25,6 @@
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
-                            <!--                      <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                      <li><a href="#">Settings 1</a>
-                                                      </li>
-                                                      <li><a href="#">Settings 2</a>
-                                                      </li>
-                                                    </ul>
-                                                  </li>-->
                             <li><a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
                         </ul>
@@ -112,21 +103,29 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="DOB">DOB
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="DOB" name="DOB" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="DOB" name="Date" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="DateJoined">Date Joined
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="DateJoined" name="DateJoined" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="DOJ" name="Date" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Photo">Photo
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Photo" name="Photo" class="form-control col-md-7 col-xs-12">
+                                    <!--<input type="text" id="Photo" name="Photo" class="form-control col-md-7 col-xs-12">-->
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-primary btn-file">
+                                                Browse&hellip; <input type="file" single>
+                                            </span>
+                                        </span>
+                                        <input type="text" class="form-control" readonly>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -172,3 +171,27 @@
     </div>
 </div>
 
+<style>
+    .btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+</style>

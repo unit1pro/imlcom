@@ -1,4 +1,3 @@
-<?php ?>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -26,52 +25,41 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
-                        <!--                        <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="#">Settings 1</a>
-                                                        </li>
-                                                        <li><a href="#">Settings 2</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>-->
                         <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-<!--                    <p class="text-muted font-13 m-b-30">
-                        DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
-                    </p>-->
                     <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>Photo</th>
                                 <th>Name</th>
-                                <th>Age</th>
+                                <th>Address</th>
+                                <th>Date of Birth</th>
                                 <th>Phone No.</th>
                                 <th>Email</th>
-                                <th>City</th>
+                                <th>Website</th>
                                 <th>Cost</th>
-                                <!--<th>Dubbing</th>-->
                             </tr>
                         </thead>
 
 
                         <tbody>
                             <?php foreach ($artist_data as $artist) { ?>
-
-
-                                <tr artist_id="<?php echo $artist['artist_id']; ?>">
+                                                <?php //print"<pre>";print_r($artist);exit;?>
+                                <tr artist_id="<?php echo $artist['UID']; ?>">
                                     <td><a href="javascript:void(0)" class="view_artist"><i class="fa fa-eye"></i></a></td>
-                                    <td><?php echo isset($artist['artist_name']) && $artist['artist_name'] != '' ? $artist['artist_name'] : 'N/A' ?></td>
-                                    <td><?php echo isset($artist['artist_age']) && $artist['artist_age'] != '' ? $artist['artist_age'] : 'N/A' ?></td>
-                                    <td><?php echo isset($artist['artist_phone']) && $artist['artist_phone'] != '' ? $artist['artist_phone'] : 'N/A' ?></td>
-                                    <td><?php echo isset($artist['artist_email']) && $artist['artist_email'] != '' ? $artist['artist_email'] : 'N/A' ?></td>
-                                    <td><?php echo isset($artist['artist_city']) && $artist['artist_city'] != '' ? $artist['artist_city'] : 'N/A' ?></td>
-                                    <td><?php echo isset($artist['artist_price']) && $artist['artist_price'] != '' ? $artist['artist_price'] : 'N/A' ?></td>
-
+                                    <td><?php echo isset($artist['Photo']) && $artist['Photo'] != '' ? $artist['Photo'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['FirstName']) && $artist['FirstName'] != '' ? $artist['FirstName'].' '.$artist['LastName'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['City']) && $artist['City'] != '' ? $artist['City'].', '.$artist['State'].', '.$artist['Country'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['DOB']) && $artist['DOB'] != '' ? $artist['DOB'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['ContactMe']) && $artist['ContactMe'] != '' ? $artist['ContactMe'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['Email']) && $artist['Email'] != '' ? $artist['Email'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['Website']) && $artist['Website'] != '' ? $artist['Website'] : 'N/A' ?></td>
+                                    <td><?php echo isset($artist['AboutMe ']) && $artist['AboutMe '] != '' ? $artist['AboutMe '] : 'N/A' ?></td>
                                 </tr>
 
                             <?php } ?>
@@ -222,6 +210,3 @@
     });
 
 </script>
-
-
-

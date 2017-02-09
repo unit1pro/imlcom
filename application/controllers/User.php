@@ -12,11 +12,12 @@ class User extends CI_Controller {
     function index() {
 
         $session_data = $this->session->userdata('user_data');
-//        print_r($session_data);exit;
         if (isset($session_data) && ($session_data['UID'])) {
-            $data['page_title'] = "Dashboard";
+            $data['artist_data'] = $this->User_model->get_data();
+//                    print "<pre>";print_r($data['artist_data']);exit;
+            $data['page_title'] = "User List";
             $data['user_data'] = $session_data;
-            $data['page'] = "dashboard";
+            $data['page'] = "list_user";
             $this->load->view('backend/page', $data);
         } else {
             $this->session->unset_userdata('user_data');
@@ -30,10 +31,6 @@ class User extends CI_Controller {
         if ($this->form_validation->run()) {
             $formdata = $this->input->post();
             $result = $this->User_model->login($formdata['UserName'], $formdata['Password']);
-//            print_r($result);exit;
-//            echo '<pre>';
-//                var_dump((array)$result[0]);
-//                exit;
             if ($result) {
                 $sess_array = array();
                 $this->session->set_userdata('user_data', (array) $result[0]);

@@ -25,15 +25,6 @@
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
-                            <!--                      <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                      <li><a href="#">Settings 1</a>
-                                                      </li>
-                                                      <li><a href="#">Settings 2</a>
-                                                      </li>
-                                                    </ul>
-                                                  </li>-->
                             <li><a class="close-link"><i class="fa fa-close"></i></a>
                             </li>
                         </ul>
@@ -85,12 +76,11 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Date">Date
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Date" name="Date" class="form-control col-md-7 col-xs-12">
+                                    <input id="Date" name="date" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                                 </div>
                             </div>
-                            <?php // var_dump($userType); ?>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserType">User Type
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserType">Song Category
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <select name="CAT_ID" id="CAT_ID" class="form-control col-md-7 col-xs-12">
@@ -114,10 +104,10 @@
                                     <select name="UID[]" id="UID" class="form-control col-md-7 col-xs-12" multiple>
                                         <option value="0" disabled>Please Select At least One</option>
                                         <?php
-                                        if (isset($artists) && !empty($artists)) {
-                                            foreach ($artists as $artist) {
+                                        if (isset($user_types) && !empty($user_types)) {          
+                                            foreach ($user_types as $type) {
                                                 ?>
-                                                <option value="<?php echo $artist['UID'] ?>"><?php echo $artist['FirstName'] . ' ' . $artist['LastName'] ?></option>
+                                                <option value="<?php echo $type['ID'] ?>"><?php echo $type['User_Type']; ?></option>
                                                 <?php
                                             }
                                         }
