@@ -9,7 +9,11 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>front/font-awesome/css/font-awesome.css">
          <link rel="stylesheet" href="<?php echo base_url() ?>front/css/style.css" type="text/css">
         <link rel="stylesheet" href="<?php echo base_url() ?>front/css/flex.css" type="text/css">
+        <!--<link rel="stylesheet" href="<?php echo base_url(); ?>/vendors/dropzone/dropzone.css" type="text/css">-->
+        <script src="<?php echo base_url() ?>front/js/jquery.js" type="text/javascript"></script>
         <script src="<?php echo base_url() ?>front/js/bootstrap.min.js" type="text/javascript"></script>
+<!--        <script src="<?php echo base_url(); ?>/vendors/dropzone/dropzone.js" type="text/javascript"></script>
+        <script src="<?php echo base_url(); ?>/vendors/dropzone/dropzone-amd-module.js" type="text/javascript"></script>-->
     </head>
     <body id="page-top" class="index">
 
