@@ -36,7 +36,6 @@ class Songs extends CI_Controller {
             $this->form_validation->set_rules('Song_Title', 'Song_Title', 'required');
             if ($this->form_validation->run()) {
                 $formdata = $this->input->post();
-//                print "<pre>";print_r($formdata);exit;
                 if (isset($_FILES['Image']) && $_FILES['Image']['name'] != '') {
                     $_FILES['Image']['name'] = date('YYmmddHisu') . str_replace(' ','',$_FILES['Image']['name']);
                     $config = array();
@@ -89,9 +88,7 @@ class Songs extends CI_Controller {
                         $data['page'] = 'add_songs';
                         $data['user_data'] = $session_data;
                         $this->load->view('backend/page', $data);
-                    }
-                   
-                    
+                    }                    
                 }
                 $song_data = array(
                     'CAT_ID' => isset($formdata['CAT_ID']) && $formdata['CAT_ID'] ? $formdata['CAT_ID'] : '',
@@ -100,7 +97,7 @@ class Songs extends CI_Controller {
                     'director' => isset($formdata['director']) && $formdata['director'] ? $formdata['director'] : '',
                     'Writers' => isset($formdata['Writers']) && $formdata['Writers'] ? $formdata['Writers'] : '',
                     'synopsis' => isset($formdata['synopsis']) && $formdata['synopsis'] ? $formdata['synopsis'] : '',
-                    'Date' => isset($formdata['date']) && $formdata['date'] ? $formdata['date'] : '',
+                    'Date' => isset($formdata['Date']) && $formdata['Date'] ? $formdata['Date'] : '',
                     'Image' => isset($_FILES['Image']['name']) && $_FILES['Image']['name'] ? $_FILES['Image']['name'] : '',
                     'Song_status' => 0,
                     'Song_File_Name' => isset($_FILES['Song_File_Name']['name']) && $_FILES['Song_File_Name']['name'] ? $_FILES['Song_File_Name']['name'] : '',
@@ -109,7 +106,6 @@ class Songs extends CI_Controller {
                     'Updated_By' => $session_data['UID'],
                 );
                 
-//                print "<pre>";print_r($song_data);exit;
                 $result = $this->Songs_model->insert_data($song_data);
                 $user_song_data = array();
                 foreach ($formdata['UID'] as $uid) {

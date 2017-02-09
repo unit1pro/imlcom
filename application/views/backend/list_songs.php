@@ -52,13 +52,16 @@
 
 
                                 <tr song_id="<?php echo $song['ID']; ?>">
-                                    <td><a href="javascript:void(0)" class="view_song"><i class="fa fa-eye"></i></a></td>
+                                    <td>
+                                        <a href="<?php echo site_url('Songs/add');?>" class="view_song"><i class="fa fa-eye"></i></a>
+                                        <a href="<?php echo site_url('Songs/delete');?>" class="view_song"><i class="fa fa-trash-o"></i></a>                                        
+                                    </td>
                                     <td><?php echo isset($song['Image']) && $song['Image'] != '' ? $song['Image'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['Song_Title']) && $song['Song_Title'] != '' ? $song['Song_Title'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['composer']) && $song['composer'] != '' ? $song['composer'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['Writers']) && $song['Writers'] != '' ? $song['Writers'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['director']) && $song['director'] != '' ? $song['director'] : 'N/A' ?></td>
-                                    <td><input type="checkbox" value="1" name="melody" class="js-switch" <?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'checked' : '' ?> /></td>
+                                    <td><input type="checkbox" value="1" name="melody" class="js-switch" <?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'checked' : '' ?>><p name="s_status"><?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'Published' : 'Unpublished' ?></p></td>
                                     <td><?php echo isset($song['synopsis']) && $song['synopsis'] != '' ? $song['synopsis'] : 'N/A' ?></td>
                                 </tr>
 
@@ -234,6 +237,13 @@
                 }
             });
         });
+    });
+    $('input[name=melody]').change(function() {
+        if($(this).is(":checked")) {
+            $(this).parent().find('p').text('Published');
+        } else {
+            $(this).parent().find('p').text('Unpublished');
+        }        
     });
 
 </script>

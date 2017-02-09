@@ -49,9 +49,11 @@
 
                         <tbody>
                             <?php foreach ($artist_data as $artist) { ?>
-                                                <?php //print"<pre>";print_r($artist);exit;?>
                                 <tr artist_id="<?php echo $artist['UID']; ?>">
-                                    <td><a href="javascript:void(0)" class="view_artist"><i class="fa fa-eye"></i></a></td>
+                                    <td>
+                                        <a href="<?php echo site_url('User/add/');?>" class="view_artist"><i class="fa fa-eye"></i></a>
+                                        <a href="<?php echo site_url('User/delete/');?>" class="view_artist"><i class="fa fa-trash-o"></i></a>
+                                    </td>
                                     <td><?php echo isset($artist['Photo']) && $artist['Photo'] != '' ? $artist['Photo'] : 'N/A' ?></td>
                                     <td><?php echo isset($artist['FirstName']) && $artist['FirstName'] != '' ? $artist['FirstName'].' '.$artist['LastName'] : 'N/A' ?></td>
                                     <td><?php echo isset($artist['City']) && $artist['City'] != '' ? $artist['City'].', '.$artist['State'].', '.$artist['Country'] : 'N/A' ?></td>

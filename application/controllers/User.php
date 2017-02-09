@@ -48,6 +48,7 @@ class User extends CI_Controller {
     function add() {
 
         $session_data = $this->session->userdata('user_data');
+
         if (isset($session_data) && ($session_data['UID'])) {
 
 
@@ -56,10 +57,7 @@ class User extends CI_Controller {
             $this->form_validation->set_rules('Email', 'Email', 'required');
             $this->form_validation->set_rules('Password', 'Password', 'required');
             $this->form_validation->set_rules('UserType', 'UserType', 'required');
-//            $this->form_validation->set_rules('user_password', 'Password', 'required');
             if ($this->form_validation->run()) {
-//                print_r($_POST);
-//                exit;
                 $formdata = $this->input->post();
                 if (isset($formdata['UID']) && $formdata['UID'] != '') {
                     $artist_data = array(
@@ -120,7 +118,6 @@ class User extends CI_Controller {
                 );
 
                 $result = $this->User_model->insert_data($artist_data);
-//print_r($result);exit;
                 if ($result) {
                     $data['userType'] = $this->UserType_model->get();
                     $sess_array = array();
