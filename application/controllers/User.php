@@ -14,6 +14,7 @@ class User extends CI_Controller {
         $session_data = $this->session->userdata('user_data');
         if (isset($session_data) && ($session_data['UID'])) {
             $data['artist_data'] = $this->User_model->get_data();
+//                    print "<pre>";print_r($data['artist_data']);exit;
             $data['page_title'] = "User List";
             $data['user_data'] = $session_data;
             $data['page'] = "list_user";
@@ -30,10 +31,6 @@ class User extends CI_Controller {
         if ($this->form_validation->run()) {
             $formdata = $this->input->post();
             $result = $this->User_model->login($formdata['UserName'], $formdata['Password']);
-//            print_r($result);exit;
-//            echo '<pre>';
-//                var_dump((array)$result[0]);
-//                exit;
             if ($result) {
                 $sess_array = array();
                 $this->session->set_userdata('user_data', (array) $result[0]);
