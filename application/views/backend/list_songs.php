@@ -47,9 +47,6 @@
 
                         <tbody>
                             <?php foreach ($songs_data as $song) { ?>
-                                            <?php //print"<pre>";print_r($song);exit;?>
-
-
                                 <tr song_id="<?php echo $song['ID']; ?>">
                                     <td>
                                         <a href="<?php echo site_url('Songs/update/'.$song['ID']);?>" class="view_song"><i class="fa fa-eye"></i></a>                            
@@ -244,6 +241,14 @@
             $(this).parent().find('p').text('Unpublished');
         }        
     });
+    
+    $('.view_song').on('click', function() {
+        var song_id = $(this).parent().parent().('#song_id').val();
+        var url = window.location.hostname;
+        window.location.replace(url+"imlcom/index.php/Songs/update/");
+    });
+    
+    
 
 </script>
 

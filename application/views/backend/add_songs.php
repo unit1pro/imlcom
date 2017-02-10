@@ -38,7 +38,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Song_Title">Song Title <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Song_Title" name="Song_Title" required="required" value="<?php echo (@$formdata[0]['Song_Title']) ? $formdata[0]['Song_Title'] : '';?>" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="Song_Title" name="Song_Title" required="required" value="<?php echo ($formdata[0]['Song_Title']) ? $formdata[0]['Song_Title'] : '';?>" class="form-control col-md-7 col-xs-12">
                                     <input type="hidden" id="ID" name="ID" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
