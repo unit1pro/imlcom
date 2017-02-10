@@ -52,7 +52,7 @@
 
                                 <tr song_id="<?php echo $song['ID']; ?>">
                                     <td>
-                                        <a href="<?php echo site_url('Songs/add/'.$song['ID']);?>" class="view_song"><i class="fa fa-eye"></i></a>                            
+                                        <a href="<?php echo site_url('Songs/update/'.$song['ID']);?>" class="view_song"><i class="fa fa-eye"></i></a>                            
                                         <a href="<?php echo site_url('Songs/delete/'.$song['ID']);?>" class="view_song"><i class="fa fa-trash-o"></i></a>                                
                                     </td>
                                     <td><?php echo isset($song['Image']) && $song['Image'] != '' ? $song['Image'] : 'N/A' ?></td>
