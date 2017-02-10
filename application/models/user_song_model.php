@@ -13,6 +13,12 @@ class user_song_model extends CI_Model {
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
+    
+    function update_songs_info($song_id,$song_data) {
+        $this->db->where('SongsID', $song_id);
+        $result = $this->db->update('user_song', $song_data);
+        return $result;
+    }
 
     public function get($conditions = array()) {
         $this->db->select('*');

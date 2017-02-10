@@ -35,10 +35,10 @@
                         <form id="song_add_form" method="post" action="<?php echo site_url('Songs/add') ?>" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Song Title <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Song_Title">Song Title <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Song_Title" name="Song_Title" required="required" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="Song_Title" name="Song_Title" required="required" value="<?php echo (@$formdata[0]['Song_Title']) ? $formdata[0]['Song_Title'] : '';?>" class="form-control col-md-7 col-xs-12">
                                     <input type="hidden" id="ID" name="ID" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
@@ -46,21 +46,21 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="composer">Composer
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="composer" name="composer"  class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="composer" name="composer" value="<?php echo (@$formdata[0]['composer']) ? $formdata[0]['composer'] : '';?>" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="director">director
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="director" name="director"  class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="director" name="director" value="<?php echo (@$formdata[0]['director']) ? $formdata[0]['director'] : '';?>" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Writers">Writers 
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="Writers" name="Writers" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="Writers" name="Writers" value="<?php echo (@$formdata[0]['Writers']) ? $formdata[0]['Writers'] : '';?>" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
 
@@ -69,14 +69,14 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="synopsis">synopsis
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="text" id="synopsis" name="synopsis" class="form-control col-md-7 col-xs-12">
+                                    <input type="text" id="synopsis" name="synopsis" value="<?php echo (@$formdata[0]['synopsis']) ? $formdata[0]['synopsis'] : '';?>" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Date">Date
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input id="Date" name="date" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                                    <input id="Date" name="Date" class="date-picker form-control col-md-7 col-xs-12" value="" required="required" type="text">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -88,9 +88,13 @@
                                         <?php
                                         if (isset($songCats) && !empty($songCats)) {
                                             foreach ($songCats as $songCat) {
-                                                ?>
-                                                <option value="<?php echo $songCat['CAT_ID'] ?>"><?php echo $songCat['CAT_TYPE'] ?></option>
-                                                <?php
+                                                if(@formdata[0]['CAT_ID'] == $songCat){?>
+                                                        <option value="<?php echo $songCat['CAT_ID'] ?>" selected><?php echo $songCat['CAT_TYPE'] ?></option>
+                                                    <?php
+                                                } else {?>
+                                                        <option value="<?php echo $songCat['CAT_ID'] ?>" selected><?php echo $songCat['CAT_TYPE'] ?></option>
+                                                    
+                                                <?php }
                                             }
                                         }
                                         ?>
@@ -119,14 +123,30 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Image">Thumbnail
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="file" id="Image" name="Image" class="form-control col-md-7 col-xs-12">
+                                    <!--<input type="file" id="Image" name="Image" class="form-control col-md-7 col-xs-12">-->
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-primary btn-file">
+                                                Browse&hellip; <input type="file" name="Image" single>
+                                            </span>
+                                        </span>
+                                        <input type="text" id="Image" name="Image" value="<?php echo (@$formdata[0]['Image']) ? $formdata[0]['Image'] : '';?>" class="form-control" readonly>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Song_File_Name">Song
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="file" id="Song_File_Name" name="Song_File_Name" class="form-control col-md-7 col-xs-12">
+                                    <!--<input type="file" id="Song_File_Name" name="Song_File_Name" class="form-control col-md-7 col-xs-12">-->
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-primary btn-file">
+                                                Browse&hellip; <input type="file" name="Song_File_Name" single>
+                                            </span>
+                                        </span>
+                                        <input type="text" id="Song_File_Name" name="Song_File_Name" value="<?php echo (@$formdata[0]['Song_File_Name']) ? $formdata[0]['Song_File_Name'] : '';?>" class="form-control" readonly>
+                                    </div>
                                 </div>
                             </div>
 
@@ -134,8 +154,8 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="submit" class="btn btn-primary">Cancel</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="reset" class="btn btn-primary">Reset</button>
+                                    <button type="submit" class="btn btn-success"><?php echo (@$formdata[0])?'Update':'Submit'?></button>
                                 </div>
                             </div>
 
@@ -147,3 +167,27 @@
     </div>
 </div>
 
+<style>
+    .btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+</style>

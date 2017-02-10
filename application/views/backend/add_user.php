@@ -117,7 +117,6 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Photo">Photo
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <!--<input type="text" id="Photo" name="Photo" class="form-control col-md-7 col-xs-12">-->
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
@@ -158,7 +157,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="submit" class="btn btn-primary">Cancel</button>
+                                    <button type="reset" class="btn btn-primary">Reset</button>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
