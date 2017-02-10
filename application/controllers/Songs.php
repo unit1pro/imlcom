@@ -209,12 +209,9 @@ class Songs extends CI_Controller {
                         'isActive' => 1,
                         'Updated_By' => $session_data['UID'],
                     );
-                    
-                    print "<pre>";
-                    print_r($song_data);exit;
                     $result = $this->Songs_model->update_song($song_id,$song_data);
                     $user_song_data = array();
-                    foreach ($formdata['UID'] as $uid) {
+                    foreach (@$formdata['UID'] as $uid) {
                         $user_song_data = array(
                             'UID' => $uid,
                             'SongsID' => $result,
