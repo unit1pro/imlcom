@@ -14,13 +14,8 @@ class Songs_model extends CI_Model {
     }
     
     function update_song($song_id, $song_data) {
-        $result = array();
         $this->db->where('ID', $song_id);
-        $result = $this->db->update('songs', $song_data);
-        if ($query !== FALSE && $query->num_rows() > 0) {
-            $result = $query->result_array();
-        }
-        return $result;
+        return $result = $this->db->update('songs', $song_data);
     }
 
     public function get($conditions = array()) {
@@ -51,12 +46,7 @@ class Songs_model extends CI_Model {
     
     function delete($id) {
         $this->db->where('ID', $id);
-        $this->db->delete('songs'); 
-        $result = array();
-        if ($query !== FALSE && $query->num_rows() > 0) {
-            $result = $query->result_array();
-        }
-        return $result;
+        return $this->db->delete('songs');
     }
 }
 ?>

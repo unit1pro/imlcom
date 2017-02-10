@@ -25,11 +25,24 @@ class User_model extends CI_Model {
             return false;
         }
     }
+    
+    function update_user($user_id, $user_data) {
+        $this->db->where('UID', $user_id);
+        return $result = $this->db->update('usermain', $user_data);
+    }
+
+    function get_single($user_id) {
+        $sql = "SELECT * FROM usermain where UID=$user_id";
+        $query = $this->db->query($sql);
+        $result = array();
+        if ($query !== FALSE && $query->num_rows() > 0) {
+            $result = $query->result_array();
+        }
+        return $result;
+    }
 
     function insert_data($data) {
-
         $this->db->insert($this->table, $data);
-//            print_r($this->db->last_query());exit;
         return $this->db->insert_id();
     }
 
@@ -54,6 +67,11 @@ class User_model extends CI_Model {
         }
         $this->db->update($this->table, $data);
         return TRUE;
+    }
+
+    function delete($id) {
+        $this->db->where('UID', $id);
+        return $this->db->delete('usermain');
     }
 
 }
