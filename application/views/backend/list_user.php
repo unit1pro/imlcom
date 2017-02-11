@@ -51,8 +51,8 @@
                             <?php foreach ($artist_data as $artist) { ?>
                                 <tr artist_id="<?php echo $artist['UID']; ?>">
                                     <td>
-                                        <a href="<?php echo site_url('User/add/');?>" class="view_artist"><i class="fa fa-eye"></i></a>
-                                        <a href="<?php echo site_url('User/delete/');?>" class="view_artist"><i class="fa fa-trash-o"></i></a>
+                                        <a href="<?php echo site_url('User/update/'.$artist['UID']);?>" class="view_artist"><i class="fa fa-eye"></i></a>
+                                        <a href="<?php echo site_url('User/delete/'.$artist['UID']);?>" class="view_artist"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td><?php echo isset($artist['Photo']) && $artist['Photo'] != '' ? $artist['Photo'] : 'N/A' ?></td>
                                     <td><?php echo isset($artist['FirstName']) && $artist['FirstName'] != '' ? $artist['FirstName'].' '.$artist['LastName'] : 'N/A' ?></td>
@@ -208,6 +208,12 @@
         $("#save_modal_form").click(function(){
             $('#modal_form').submit();
         });
+        
+        $('.view_artist').on('click', function() {
+        var song_id = $(this).parent().parent().('#artist_id').val();
+        var url = window.location.hostname;
+        window.location.replace(url+"imlcom/index.php/User/update/");
+    });
         
     });
 
