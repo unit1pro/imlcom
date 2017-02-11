@@ -45,6 +45,27 @@ class User extends CI_Controller {
         }
     }
 
+    function login_front() {
+        $this->form_validation->set_rules('UserName', 'Username', 'required');
+        $this->form_validation->set_rules('Password', 'Password', 'required');
+        if ($this->form_validation->run()) {
+            $formdata = $this->input->post();
+            $result = $this->User_model->login($formdata['UserName'], $formdata['Password']);
+            if ($result) {
+                $sess_array = array();
+                $this->session->set_userdata('user_data', (array) $result[0]);
+                $this->session->set_userdata('login_msg', 'Login successful');
+                redirect('index', 'refresh');
+            } else {
+                $this->session->set_userdata('login_msg', 'Wrong Username or password');
+                redirect('index', 'refresh');
+            }
+        } else {
+            $this->session->set_userdata('login_msg', 'Please enter Username and password');
+            redirect('index', 'refresh');
+        }
+    }
+
     function add() {
 
         $session_data = $this->session->userdata('user_data');

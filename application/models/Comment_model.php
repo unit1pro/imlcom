@@ -4,6 +4,7 @@ class Comment_model extends CI_Model {
 
     public $table = 'iml_comment_song';
     public $attachment_table = 'comment_attachments';
+    public $user_table = 'usermain';
 
     function __construct() {
         parent::__construct();
@@ -23,21 +24,26 @@ class Comment_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    public function get_data($conditions = array(),$limit = NULL , $offset = NULL) {
-        
+    public function get_data($conditions = array(), $limit = NULL, $offset = NULL, $order = 'DESC') {
+
         $this->db->select('*');
         $this->db->from($this->table);
+        $this->db->join($this->user_table, 'iml_comment_song.id = usermain.UID', 'inner');
         if (!empty($conditions)) {
             foreach ($conditions as $key => $value) {
                 $this->db->where($key, $value);
             }
         }
+        if ($limit)
+            $this->db->limit($limit, $offset);
+        $this->db->order_by('COM_ID', $order);
         $query = $this->db->get();
+//        print_r($this->db->last_query());exit;
         $result = $query->result_array();
         return $result;
     }
-    
-    function getAttachment($conditions = array(),$limit = NULL , $offset = NULL) {
+
+    function getAttachment($conditions = array(), $limit = NULL, $offset = NULL) {
         $this->db->select('*');
         $this->db->from($this->attachment_table);
         if (!empty($conditions)) {

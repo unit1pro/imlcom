@@ -88,7 +88,7 @@
                                         <?php
                                         if (isset($songCats) && !empty($songCats)) {
                                             foreach ($songCats as $songCat) {
-                                                if(@formdata[0]['CAT_ID'] == $songCat){?>
+                                                if($formdata[0]['CAT_ID'] == $songCat){?>
                                                         <option value="<?php echo $songCat['CAT_ID'] ?>" selected><?php echo $songCat['CAT_TYPE'] ?></option>
                                                     <?php
                                                 } else {?>

@@ -8,6 +8,7 @@ class index extends CI_Controller {
         $this->load->model('UserType_model');
         $this->load->model('Home_model');
         $this->load->model('Comment_model');
+        $this->load->model('User_model');
         header("Access-Control-Allow-Origin: *");
 
         header("Access-Control-Allow-Methods: GET,POST,OPTIONS");
@@ -18,6 +19,7 @@ class index extends CI_Controller {
         $session_data = $this->session->userdata('user_data');
 
         $data['songs_data'] = $this->Home_model->get_video();
+        $data['login_msg'] = $this->session->userdata('login_msg');
         $data['page_title'] = "Home";
         $data['user_data'] = $session_data;
         $data['page'] = "home";
@@ -114,10 +116,10 @@ class index extends CI_Controller {
             );
 
             $comment_id = $this->Comment_model->insert_data($insertData);
-            if(!$comment_id)
+            if (!$comment_id)
                 throw new Exception("Comment not saved Please check your network and try again");
             if ($comment_id && isset($formData['attchment_path']) && !empty($formData['attchment_path'])) {
-                $attachmentId=array();
+                $attachmentId = array();
                 foreach ($formData['attchment_path'] as $key => $attachment_path) {
                     $attachmentData = array(
                         'comment_id' => $comment_id,
@@ -127,19 +129,99 @@ class index extends CI_Controller {
                         'created_by' => $session_data['UID'],
                         'updated_by' => $session_data['UID'],
                     );
-                 $attachmentId[] = $this->Comment_model->insert_comment_attachment($attachmentData);   
+                    $attachmentId[] = $this->Comment_model->insert_comment_attachment($attachmentData);
                 }
             }
-            $response['success']= TRUE;
-            $response['msg']="Post Saved";
-            $response['comment']=$this->Comment_model->get_data(array('COM_ID'=>$comment_id));
-            $response['attachment']=$this->Comment_model->getAttachment(array('comment_id'=>$comment_id));
-            
+            $comment = $this->Comment_model->get_data(array('COM_ID' => $comment_id));
+            $comment[0]['attachment'] = $this->Comment_model->getAttachment(array('comment_id' => $comment_id));
+            $response['success'] = TRUE;
+            $response['msg'] = "Post Saved";
+            $response['comment'] = $comment;
         } catch (Exception $exc) {
-            $response['success']= FALSE;
-            $response['msg']= $exc->getMessage();
+            $response['success'] = FALSE;
+            $response['msg'] = $exc->getMessage();
         }
-        
+
+        echo json_encode($response);
+        exit();
+    }
+
+    public function get_posts() {
+        $response = array();
+        $comments = array();
+
+        try {
+            $formdata = $_POST;
+            $limit = isset($formdata['limit']) && $formdata['limit'] ? $formdata['limit'] : NULL;
+            $offset = isset($formdata['offset']) && $formdata['offset'] ? $formdata['offset'] : NULL;
+            $conditions = array(
+                'parent_id' => 0,
+            );
+            $comments = $this->Comment_model->get_data($conditions, $limit, $offset);
+            if (is_array($comments) && !empty($comments)) {
+                foreach ($comments as $key => $value) {
+//                    print_r($value['COM_ID']);
+//                    print_r($key);
+                    $comments[$key]['attachment'] = $this->Comment_model->getAttachment(array('comment_id' => $value['COM_ID']));
+                    $comments[$key]['subComments'] = $this->Comment_model->get_data(array('parent_id' => $value['COM_ID']), 2, 0, 'DESC');
+                }
+//                exit;
+            } else {
+                throw new Exception("No data fetched");
+            }
+            $response['success'] = TRUE;
+            $response['comment'] = $comments;
+        } catch (Exception $exc) {
+            $response['success'] = FALSE;
+            $response['msg'] = $exc->getMessage();
+        }
+        echo json_encode($response);
+        exit();
+    }
+
+    public function get_posts_industry() {
+        $response = array();
+        $comments = array();
+        $session_data = $this->session->userdata('user_data');
+        try {
+            if ($session_data['UserType'] == 5) {
+                $formdata = $_POST;
+
+                $limit = isset($formdata['limit']) && $formdata['limit'] ? $formdata['limit'] : NULL;
+                $offset = isset($formdata['offset']) && $formdata['offset'] ? $formdata['offset'] : NULL;
+                $conditions = array(
+                    'parent_id' => 0,
+                    'UserType' => 5,
+                );
+                $comments = $this->Comment_model->get_data($conditions, $limit, $offset);
+                if (is_array($comments) && !empty($comments)) {
+                    foreach ($comments as $key => $value) {
+//                    print_r($value['COM_ID']);
+//                    print_r($key);
+                        $comments[$key]['attachment'] = $this->Comment_model->getAttachment(array('comment_id' => $value['COM_ID']));
+                        $comments[$key]['subComments'] = $this->Comment_model->get_data(array('parent_id' => $value['COM_ID']), 2, 0, 'DESC');
+                    }
+//                exit;
+                } else {
+                    throw new Exception("No data fetched");
+                }
+
+                $response['success'] = TRUE;
+                $response['comment'] = $comments;
+            }else{
+                $conditions = array(
+                    'UserType' => 5,
+                );
+                $comments = $this->User_model->get_data($conditions);
+                if (!is_array($comments) || empty($comments))
+                  throw new Exception("No data fetched");
+                $response['success'] = TRUE;
+                $response['comment'] = $comments;
+            }
+        } catch (Exception $exc) {
+            $response['success'] = FALSE;
+            $response['msg'] = $exc->getMessage();
+        }
         echo json_encode($response);
         exit();
     }

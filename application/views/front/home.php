@@ -97,11 +97,14 @@
             </div>
         </div>
         <div class="layout-column flex-45 flex-xs-100 public-section" style="overflow: hidden">
-            <div style="height: 100%;width: 100%;overflow-y: auto;">
+            <div style="height: 100%;width: 100%;overflow-y: auto;" >
                 <div class="layout-column comment-section">
                     <textarea placeholder="Post Your Views Or Songs" data-modal="modal-12" class="views textarea-views"></textarea>
                 </div>
-                <div class="layout-column comment-section">
+                <div id="public_wall">
+
+                </div>
+<!--                <div class="layout-column comment-section">
                     <div class="layout-row user-comments">
                         <img src="<?php echo base_url('front') ?>/img/no_picture.png" alt="user-image"/>
                         <div class="comment-wrap"><a href="#"> Anuska </a>
@@ -233,12 +236,18 @@
                         </div>
                     </div>
 
-                </div>
+                </div>-->
             </div>
         </div>
-        <div class="flex-30 flex-xs-100 layout-column profile-section" style="overflow: hidden" >
+        <div class="flex-30 flex-xs-100 layout-column profile-section" style="overflow: hidden;<?php echo isset($user_data)&&$user_data['UID']?'display: block':'display: none' ?>;">
             <div style="height: 100%;width: 100%;overflow-y: auto;">
-                <div class="layout-column profile-picture">
+                <?php if($user_data['UserType']==5){ ?>
+                <div class="layout-column comment-section">
+                    <textarea placeholder="Post Your Views Or Songs" data-modal="modal-12" class="views textarea-views"></textarea>
+                </div>
+                <?php  } ?>
+                <div class="industry_wall"></div>
+<!--                <div class="layout-column profile-picture">
                     <img src="img/user-image.png" alt="user-image"/>
                     <span class="user-name1">Rohit settity</span>
                     <span class="user-status">I am so glad to have to aal here ,to me and may family :) :).So glad to seee you all here.</span>
@@ -287,22 +296,40 @@
                     <span class="layout-row flex-30 layout-align-start-center"><i class="fa fa-heart"></i> 40</span>
                     <span class="layout-row flex-20 layout-align-start-center"><i class="fa fa-ellipsis-h"></i></span>
 
-                </div>
+                </div>-->
             </div>
         </div>
-        <!--            <div class="flex-30 layout-align-center-center layout-row">
-                        <div class="login-part layout-column layout-align-center-center" id="hexagon">
-                            <i class="fa fa-user"></i>
-                            <span>USER LOGIN</span>
-                            <span>Sample Text</span>
-                            <div><input placeholder="username"/><i class="fa fa-user"></i></div>
-                            <div><input placeholder="password"/><i class="fa fa-lock"></i></div>
-                            <div><input type="checkbox" />Remember Me</div>
-                            <a>Forget Password</a>
-                            <button class="login-btn" id="small-hoxa">login</button>
-                            <button class="btn-sign">sign up</button>
-                        </div>
-                    </div>-->
+        <div class="flex-30 flex-xs-100 login-wrapper layout-column layout-align-start-center" style="<?php echo isset($user_data)&&$user_data['UID']?'display: none':'display: block' ?>;">
+            <div class="login-part layout-column layout-align-center-center">
+                <img src="<?php echo base_url('front') ?>/img/login.png" alt="login bg"/>
+                <img src="<?php echo base_url('front') ?>/img/login_music_symbol.png" class="imgg-abo"/>
+                <div class="layout-column login-abo login_form" id="">
+                    <i class="fa fa-user"></i>
+                    <span>USER LOGIN</span>
+                    <form id="login_form" action="<?php echo site_url('user/login_front') ?>" method="POST">
+                        <div class="area-input"><input type="text" placeholder="UserName" name="UserName" id="UserName" class="required"/><i class="fa fa-user"></i></div>
+                        <div class="area-input"><input type="password" placeholder="Password" name="Password" id="Password" class="required"/><i class="fa fa-lock"></i></div>
+                    </form>
+                    <div class="area-input chek-box"><input type="checkbox" />Remember Me</div>
+                    <!--<a href="www.google.com">Forget Password</a>-->
+                    <button class="login-btn user_login_button" id="small-hoxa"> <img src="<?php echo base_url('front') ?>/img/login-1.png" /></button>
+                    <button class="btn-sign user_signup_switch"><img src="<?php echo base_url('front') ?>/img/login_signup_button.png"/></button>
+                </div>
+                <div class="layout-column login-abo signup-abo signup_form" id="" style="display: none">
+                    <i class="fa fa-user"></i>
+                    <span>New User</span>
+                    <form id="signup_form">
+                        <div class="area-input"><input type="text" placeholder="username"  name="username" id="username" class="required"/><i class="fa fa-user"></i></div>
+                    <div class="area-input"><input type="text" placeholder="email" name="email" id="email" class="required"/><i class="fa fa-mail-reply-all"></i></div>
+                    <div class="area-input"><input type="password" placeholder="password" name="password" id="password" class="required"/><i class="fa fa-lock"></i></div>
+                    <div class="area-input"><input type="password" placeholder="Confirm Password" name="conf_password" id="conf_password" class="required"/><i class="fa fa-lock"></i></div>
+                    </form>
+                    <button class="login-btn user_login_switch" id="small-hoxa"> <img src="<?php echo base_url('front') ?>/img/login-1.png" /></button>
+                    <button class="btn-sign user_signup_button"><img src="<?php echo base_url('front') ?>/img/login_signup_button.png"/></button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </section>
 <div class="md-container md-effect-12" id="modal-12">
@@ -392,14 +419,57 @@
         </div>
     </div>
 </div>
-<button class="md-trigger" data-modal="modal-12">Just Me</button>
 <script>
+    var base_url = '<?php echo base_url() ?>';
+    var site_url = '<?php echo site_url() ?>';
+    var limit = 4;
+    var offset = 0;
     $(document).ready(function () {
 //        console.log($('header').height());
         $('.video-section').height($(window).height() - $('header').height());
         $('.public-section').height($(window).height() - $('header').height());
         $('.profile-section').height($(window).height() - $('header').height() - 20);
-    });</script>
+        get_post({'limit': limit, 'offset': offset});
+        
+        $('.user_signup_switch').on('click',function(){
+            $('.login_form').hide();
+            $('.signup_form').show();
+        });
+        $('.user_login_switch').on('click',function(){
+            $('.login_form').show();
+            $('.signup_form').hide();
+        });
+        $('.user_login_button').on('click',function(){
+            var error = 0;
+            $('#login_form .required').each(function(){
+                if($(this).val()==''){
+                    error = 1;
+                    $(this).css('border', '#ff0000 solid 1px');
+                }
+            });
+            if(!error){
+                $('#login_form').submit();
+            }else{
+                return false;
+            }
+        });
+        $('.user_signup_button').on('click',function(){
+           var error = 0;
+            $('#signup_form .required').each(function(){
+                if($(this).val()==''){
+                    error = 1;
+                    $(this).css('border', '#ff0000 solid 1px');
+                }
+            });
+            if(!error){
+                $('#signup_form').submit();
+            }else{
+                return false;
+            }
+        });
+    });
+
+</script>
 <script>
     var previewNode = document.querySelector("#template");
     previewNode.id = "";
@@ -488,11 +558,322 @@
                 console.log(obj);
                 var html = '';
                 if (obj.success) {
-                    $.each(obj.comment,function(index,comments){
-                        
+                    $.each(obj.comment, function (index, comments) {
+                        var user_image = base_url + '/front/img/no_picture.png'
+                        if (comments.Photo != '') {
+                            user_image = base_url + '/uploads/user_images/' + comments.Photo;
+                        }
+
+                        html += '<div class="layout-column comment-section" data-post_id = "' + comments.COM_ID + '">';
+                        html += '<div class="layout-row user-comments">';
+                        html += '<img src="' + user_image + '" alt="user-image"/>';
+                        html += '<div class="comment-wrap"><a href="#"> ' + comments.FirstName + ' ' + comments.LastName + ' </a></div>';
+                        html += '</div>';
+                        if (comments.COMMENTS != '') {
+                            html += '<div class="layout-row user-comments">';
+                            html += '<div class="">';
+                            html += '<span>' + comments.COMMENTS + '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                        if (comments.attachment != null) {
+                            $.each(comments.attachment, function (key, attach) {
+                                if (attach.attachment_type == 'audios') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<audio controls>';
+                                    html += '<source src="' + base_url + '/uploads/audios/' + attach.attachment_path + '" type="audio/ogg">';
+                                    html += '</audio>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'videos') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<video height="170" controls>';
+                                    html += '<source src="' + base_url + '/uploads/videos/' + attach.attachment_path + '" type="video/mp4">';
+                                    html += '</video>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'images') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<img src="' + base_url + '/uploads/images/' + attach.attachment_path + '" height = 170>';
+                                    html += '</div>';
+                                }
+                            });
+                        }
+                        html += '<div class="layout-row action-wrapper">';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-thumbs-up"></i> Like</div>';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-comment"></i> Comments</div>';
+//                        html += '<div class="layout-row layout-align-end-center flex-20"><i class="fa fa-share"></i> Share</div>';
+                        html += '</div>';
+                        html += '</div>';
                     });
+
+                    $('#public_wall').prepend(html);
+                    $('.md-close').trigger('click');
+                }
+            }
+        });
+    }
+
+    function get_post(data) {
+        $.ajax({
+            'url': '<?php echo site_url('index/get_posts') ?>',
+            'data': data,
+            'type': 'post',
+            success: function (result) {
+                var obj = $.parseJSON(result);
+                console.log(obj);
+                var html = '';
+                if (obj.success) {
+                    $.each(obj.comment, function (index, comments) {
+                        var user_image = base_url + '/front/img/no_picture.png'
+                        if (comments.Photo != '') {
+                            user_image = base_url + '/uploads/user_images/' + comments.Photo;
+                        }
+
+                        html += '<div class="layout-column comment-section" data-post_id = "' + comments.COM_ID + '">';
+                        html += '<div class="layout-row user-comments">';
+                        html += '<img src="' + user_image + '" alt="user-image"/>';
+                        html += '<div class="comment-wrap"><a href="#"> ' + comments.FirstName + ' ' + comments.LastName + ' </a></div>';
+                        html += '</div>';
+                        if (comments.COMMENTS != '') {
+                            html += '<div class="layout-row user-comments">';
+                            html += '<div class="">';
+                            html += '<span>' + comments.COMMENTS + '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                        if (comments.attachment != null) {
+                            $.each(comments.attachment, function (key, attach) {
+                                if (attach.attachment_type == 'audios') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<audio controls>';
+                                    html += '<source src="' + base_url + '/uploads/audios/' + attach.attachment_path + '" type="audio/ogg">';
+                                    html += '</audio>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'videos') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<video height="170" controls>';
+                                    html += '<source src="' + base_url + '/uploads/videos/' + attach.attachment_path + '" type="video/mp4">';
+                                    html += '</video>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'images') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<img src="' + base_url + '/uploads/images/' + attach.attachment_path + '" height = 170>';
+                                    html += '</div>';
+                                }
+                            });
+                        }
+                        html += '<div class="layout-row action-wrapper">';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-thumbs-up"></i> Like</div>';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-comment"></i> Comments</div>';
+//                        html += '<div class="layout-row layout-align-end-center flex-20"><i class="fa fa-share"></i> Share</div>';
+                        html += '</div>';
+                        if (comments.like_count) {
+                            html += '<div class="layout-row comment-count">';
+                            html += '<span><i class="fa fa-thumbs-up"></i></span>';
+                            html += '<a href="#">' + comments.like_count + ' Likes</a>';
+                            html += '</div>';
+                        }
+
+                        if (comments.subComments != null) {
+                            html += '<div class="layout-row comment-wrap">';
+                            html += '<span class="flex-75">View Previous Comments</span>';
+                            html += '</div>';
+                            $.each(comments.subComments, function (scKey, sc) {
+                                var user_image = base_url + '/front/img/no_picture.png'
+                                if (sc.Photo != '') {
+                                    user_image = base_url + '/uploads/user_images/' + sc.Photo;
+                                }
+                                html += '<div class="layout-row user-comments">';
+                                html += '<img src="' + user_image + '" alt="user-image"/>';
+                                html += '<div class="layout-column user-detail">';
+                                html += '<div class="layout-row">';
+                                html += '<span class="user-name">' + sc.FirstName + ' ' + sc.LastName + '</span>';
+                                html += '<span>' + sc.COMMENTS + '</span>';
+                                html += '</div>';
+                                html += '<div class="layout-row">';
+                                html += '<span class="user-name">Like</span>';
+                                html += '<span class="user-name">Reply</span>';
+//                                html += '<span>28 min</span>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                html += '</div>';
+                            });
+                        }
+                        html += '</div>';
+                    });
+
+                    $('#public_wall').append(html);
+                    $('.md-close').trigger('click');
+                }
+            }
+        });
+    }
+    function get_post_industry(data) {
+        $.ajax({
+            'url': '<?php echo site_url('index/get_posts_industry') ?>',
+            'data': data,
+            'type': 'post',
+            success: function (result) {
+                var obj = $.parseJSON(result);
+                console.log(obj);
+                var html = '';
+                if (obj.success) {
+                    $.each(obj.comment, function (index, comments) {
+                        var user_image = base_url + '/front/img/no_picture.png'
+                        if (comments.Photo != '') {
+                            user_image = base_url + '/uploads/user_images/' + comments.Photo;
+                        }
+
+                        html += '<div class="layout-column comment-section" data-post_id = "' + comments.COM_ID + '">';
+                        html += '<div class="layout-row user-comments">';
+                        html += '<img src="' + user_image + '" alt="user-image"/>';
+                        html += '<div class="comment-wrap"><a href="#"> ' + comments.FirstName + ' ' + comments.LastName + ' </a></div>';
+                        html += '</div>';
+                        if (comments.COMMENTS != '') {
+                            html += '<div class="layout-row user-comments">';
+                            html += '<div class="">';
+                            html += '<span>' + comments.COMMENTS + '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                        if (comments.attachment != null) {
+                            $.each(comments.attachment, function (key, attach) {
+                                if (attach.attachment_type == 'audios') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<audio controls>';
+                                    html += '<source src="' + base_url + '/uploads/audios/' + attach.attachment_path + '" type="audio/ogg">';
+                                    html += '</audio>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'videos') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<video height="170" controls>';
+                                    html += '<source src="' + base_url + '/uploads/videos/' + attach.attachment_path + '" type="video/mp4">';
+                                    html += '</video>';
+                                    html += '</div>';
+                                } else if (attach.attachment_type == 'images') {
+                                    html += '<div class="layout-column layout-align-center-center" data-att_id="' + attach.att_id + '">';
+                                    html += '<img src="' + base_url + '/uploads/images/' + attach.attachment_path + '" height = 170>';
+                                    html += '</div>';
+                                }
+                            });
+                        }
+                        html += '<div class="layout-row action-wrapper">';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-thumbs-up"></i> Like</div>';
+                        html += '<div class="layout-row layout-align-start-center flex-20"><i class="fa fa-comment"></i> Comments</div>';
+//                        html += '<div class="layout-row layout-align-end-center flex-20"><i class="fa fa-share"></i> Share</div>';
+                        html += '</div>';
+                        if (comments.like_count) {
+                            html += '<div class="layout-row comment-count">';
+                            html += '<span><i class="fa fa-thumbs-up"></i></span>';
+                            html += '<a href="#">' + comments.like_count + ' Likes</a>';
+                            html += '</div>';
+                        }
+
+                        if (comments.subComments != null) {
+                            html += '<div class="layout-row comment-wrap">';
+                            html += '<span class="flex-75">View Previous Comments</span>';
+                            html += '</div>';
+                            $.each(comments.subComments, function (scKey, sc) {
+                                var user_image = base_url + '/front/img/no_picture.png'
+                                if (sc.Photo != '') {
+                                    user_image = base_url + '/uploads/user_images/' + sc.Photo;
+                                }
+                                html += '<div class="layout-row user-comments">';
+                                html += '<img src="' + user_image + '" alt="user-image"/>';
+                                html += '<div class="layout-column user-detail">';
+                                html += '<div class="layout-row">';
+                                html += '<span class="user-name">' + sc.FirstName + ' ' + sc.LastName + '</span>';
+                                html += '<span>' + sc.COMMENTS + '</span>';
+                                html += '</div>';
+                                html += '<div class="layout-row">';
+                                html += '<span class="user-name">Like</span>';
+                                html += '<span class="user-name">Reply</span>';
+//                                html += '<span>28 min</span>';
+                                html += '</div>';
+                                html += '</div>';
+
+                                html += '</div>';
+                            });
+                        }
+                        html += '</div>';
+                    });
+
+                    $('#public_wall').append(html);
+                    $('.md-close').trigger('click');
                 }
             }
         });
     }
 </script>
+
+<!--<div class="layout-column comment-section">
+    <div class="layout-row user-comments">
+        <img src="<?php echo base_url('front') ?>/img/no_picture.png" alt="user-image"/>
+        <div class="comment-wrap"><a href="#"> Anuska </a>
+        </div>
+    </div>
+    <div class="layout-row user-comments">
+        <div class="">
+            <span>my new song</span>
+        </div>
+    </div>
+    <audio controls>
+        <source src="horse.ogg" type="audio/ogg">
+    </audio>
+    <div class="layout-row action-wrapper">
+        <div class="layout-row layout-align-start-center flex-20"><i class="fa fa-thumbs-up"></i> Like</div>
+        <div class="layout-row layout-align-start-center flex-20"><i class="fa fa-comment"></i> Comments</div>
+        <div class="layout-row layout-align-end-center flex-20"><i class="fa fa-share"></i> Share</div>
+    </div>
+    <div class="layout-row comment-count">
+        <span><i class="fa fa-thumbs-up"></i></span>
+        <span class="heart"> <i class="fa fa-heart"></i></span>
+        <a href="#">Anuska , neha and 22 more</a>
+    </div>
+    <div class="layout-row comment-wrap">
+        <span class="flex-75">View Previous Comments</span>
+        <span class="flex-50 no-count">4 out 9</span>
+    </div>
+    <div class="layout-row user-comments">
+        <img src="<?php echo base_url('front') ?>/img/no_picture.png" alt="user-image"/>
+        <div class="layout-column user-detail">
+            <div class="layout-row">
+                <span class="user-name">Lokesdh tiwari</span>
+                <span>Congret bhai shaib</span>
+            </div>
+            <div class="layout-row">
+                <span class="user-name">Like</span>
+                <span class="user-name">Reply</span>
+                <span>28 min agao</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layout-row user-comments">
+        <img src="img/no_picture.png" alt="user-image"/>
+        <div class="layout-column user-detail">
+            <div class="layout-row">
+                <span class="user-name">Lokesdh tiwari</span>
+                <span>Congret bhai shaib</span>
+            </div>
+            <div class="layout-row">
+                <span class="user-name">Like</span>
+                <span class="user-name">Reply</span>
+                <span>28 min</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="layout-column comment-wrap">
+        <span>View more Comments</span>
+    </div>
+    <div class="layout-row user-comments">
+        <img src="img/no_picture.png" alt="user-image"/>
+        <div class="input-area"><input placeholder="Write a Comments"/>
+            <i class="fa fa-camera"></i>
+            <i class="fa fa-smile-o"></i>
+        </div>
+    </div>
+
+</div>-->
