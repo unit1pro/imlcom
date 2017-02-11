@@ -449,7 +449,7 @@
   $(document).ready(function() {
     $('input[name=Date]').daterangepicker({
       locale: {
-        format: 'DD-MM-YYYY'
+        format: 'YYYY-MM-DD'
       },
       showDropdowns: true,
       singleDatePicker: true,

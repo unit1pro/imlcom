@@ -243,7 +243,7 @@
     });
     
     $('.view_song').on('click', function() {
-        var song_id = $(this).parent().parent().('#song_id').val();
+        var song_id = $(this).parent().parent().$('#song_id').val();
         var url = window.location.hostname;
         window.location.replace(url+"imlcom/index.php/Songs/update/");
     });

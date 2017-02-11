@@ -1,3 +1,5 @@
+<?phpprint "<pre>";
+print_r(formdata[0]);exit;?>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -50,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="director">director
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="director">Director
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" id="director" name="director" value="<?php echo isset($formdata[0]['director']) && !empty($formdata[0]['director']) ? $formdata[0]['director'] : '';?>" class="form-control col-md-7 col-xs-12">
@@ -66,7 +68,7 @@
 
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="synopsis">synopsis
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="synopsis">Synopsis
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" id="synopsis" name="synopsis" value="<?php echo isset($formdata[0]['synopsis']) && !empty($formdata[0]['synopsis']) ? $formdata[0]['synopsis'] : '';?>" class="form-control col-md-7 col-xs-12">
@@ -87,13 +89,12 @@
                                         <option value="0" disabled>Please Select One</option>
                                         <?php
                                         if (isset($songCats) && !empty($songCats)) {
-                                            foreach ($songCats as $songCat) {
+                                            foreach ($songCats as $songCat) {           
                                                 if(@formdata[0]['CAT_ID'] == $songCat){?>
                                                         <option value="<?php echo $songCat['CAT_ID'] ?>" selected><?php echo $songCat['CAT_TYPE'] ?></option>
                                                     <?php
                                                 } else {?>
-                                                        <option value="<?php echo $songCat['CAT_ID'] ?>" selected><?php echo $songCat['CAT_TYPE'] ?></option>
-                                                    
+                                                        <option value="<?php echo $songCat['CAT_ID'] ?>"><?php echo $songCat['CAT_TYPE'] ?></option>                                                    
                                                 <?php }
                                             }
                                         }
@@ -111,7 +112,7 @@
                                         if (isset($user_types) && !empty($user_types)) {          
                                             foreach ($user_types as $type) {
                                                 ?>
-                                                <option value="<?php echo $type['ID'] ?>"><?php echo $type['User_Type']; ?></option>
+                                                <option value="<?php echo $type['ID'] ?>" selected><?php echo $type['User_Type']; ?></option>
                                                 <?php
                                             }
                                         }
@@ -170,6 +171,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#UID").val($("#UID option:eq(1)").val());
+</script>
 
 <style>
     .btn-file {
