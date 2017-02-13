@@ -47,7 +47,7 @@
 
                         <tbody>
                             <?php foreach ($songs_data as $song) { ?>
-                                <tr song_id="<?php echo $song['ID']; ?>">
+                                <tr data-song-id="<?php echo $song['ID']; ?>">
                                     <td>
                                         <a href="<?php echo site_url('Songs/update/'.$song['ID']);?>" class="view_song"><i class="fa fa-eye"></i></a>                            
                                         <a href="<?php echo site_url('Songs/delete/'.$song['ID']);?>" class="view_song"><i class="fa fa-trash-o"></i></a>                                
@@ -57,7 +57,7 @@
                                     <td><?php echo isset($song['composer']) && $song['composer'] != '' ? $song['composer'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['Writers']) && $song['Writers'] != '' ? $song['Writers'] : 'N/A' ?></td>
                                     <td><?php echo isset($song['director']) && $song['director'] != '' ? $song['director'] : 'N/A' ?></td>
-                                    <td><input type="checkbox" value="1" name="melody" class="js-switch" <?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'checked' : '' ?>><p name="s_status"><?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'Published' : 'Unpublished' ?></p></td>
+                                    <td><input type="checkbox" value="<?php echo isset($song['Song_status']) && !empty($song['Song_status']) ? '1' : '0' ?>" name="melody" class="js-switch" <?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'checked' : '' ?>><p name="s_status"><?php echo isset($song['Song_status']) && $song['Song_status'] != 0 ? 'Published' : 'Unpublished' ?></p></td>
                                     <td><?php echo isset($song['synopsis']) && $song['synopsis'] != '' ? $song['synopsis'] : 'N/A' ?></td>
                                 </tr>
 
@@ -248,7 +248,18 @@
         window.location.replace(url+"imlcom/index.php/Songs/update/");
     });
     
-    
+    $(function() {
+      $(":checkbox").change(function(){
+        var song_id = $(this).parent().parent().data('song-id');
+        var current_status = this.value;
+        if(current_status == 0){
+            var new_status = 1;
+        } else {
+            var new_status = 0;            
+        }
+        $.post('<?php echo site_url('Songs/song_status'); ?>', { song_id: song_id ,status: new_status });        
+      });    
+    });
 
 </script>
 

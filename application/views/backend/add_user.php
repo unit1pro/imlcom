@@ -193,7 +193,8 @@
             var jtoday = d.getFullYear() + '/' + ((''+month).length<2 ? '0' : '') + month + '/' + ((''+day).length<2 ? '0' : '') + day;
             $('#DOJ').val(jtoday);            
         }
-    });
+    });   
+  
 </script>
 <style>
     .btn-file {

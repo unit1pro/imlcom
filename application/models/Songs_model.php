@@ -48,6 +48,12 @@ class Songs_model extends CI_Model {
         $this->db->where('ID', $id);
         return $this->db->delete('songs');
     }
+    
+    function change_status($song_id, $status) {    
+        $data=array('Song_status'=>$status);
+        $this->db->where('ID', $song_id);
+        return $result = $this->db->update('songs', $data);
+    }
 }
 ?>
 

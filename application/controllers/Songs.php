@@ -405,6 +405,15 @@ class Songs extends CI_Controller {
         echo json_encode($response);
         exit;
     }
+    
+    function song_status() {
+        $song_id = $_REQUEST["song_id"];
+        $status = $_REQUEST["status"];
+        $result = array();
+        $result = $this->Songs_model->change_status($song_id, $status);        
+        echo json_encode($result);
+        exit;
+    }
 
 }
 
