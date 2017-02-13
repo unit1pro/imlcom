@@ -1,5 +1,3 @@
-<?phpprint "<pre>";
-print_r(formdata[0]);exit;?>
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
@@ -85,7 +83,7 @@ print_r(formdata[0]);exit;?>
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserType">Song Category
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select name="CAT_ID" id="CAT_ID" class="form-control col-md-7 col-xs-12">
+                                    <select name="CAT_ID" id="CAT_ID" class="form-control col-md-7 col-xs-12" required>
                                         <option value="0" disabled>Please Select One</option>
                                         <?php
                                         if (isset($songCats) && !empty($songCats)) {
@@ -109,12 +107,15 @@ print_r(formdata[0]);exit;?>
                                     <select name="UID[]" id="UID" class="form-control col-md-7 col-xs-12" multiple>
                                         <option value="0" disabled>Please Select At least One</option>
                                         <?php
-                                        if (isset($user_types) && !empty($user_types)) {          
-                                            foreach ($user_types as $type) {
-                                                ?>
-                                                <option value="<?php echo $type['ID'] ?>" selected><?php echo $type['User_Type']; ?></option>
-                                                <?php
-                                            }
+                                        if (isset($all_user_type) && !empty($all_user_type)) {          
+                                            foreach ($all_user_type as $u_type) {
+                                                if($u_type['User_Type'] == $song_user_type[0]['User_Type'] ) {?>
+                                                    <option value="<?php echo $u_type['User_Type'] ?>" selected><?php echo $u_type['User_Type']; ?></option>                                                    
+                                                <?php } else { ?>
+                                                    <option value="<?php echo $u_type['User_Type'] ?>"><?php echo $u_type['User_Type']; ?></option>
+                                               <?php } ?>
+                                                
+                                        <?php }
                                         }
                                         ?>
                                     </select>
@@ -124,7 +125,6 @@ print_r(formdata[0]);exit;?>
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Image">Thumbnail
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <!--<input type="file" id="Image" name="Image" class="form-control col-md-7 col-xs-12">-->
                                     <div class="input-group">
                                         <span class="input-group-btn">
                                             <span class="btn btn-primary btn-file">
@@ -173,7 +173,7 @@ print_r(formdata[0]);exit;?>
 </div>
 
 <script>
-    $("#UID").val($("#UID option:eq(1)").val());
+//    $("#UID").val($("#UID option:eq(1)").val());
 </script>
 
 <style>

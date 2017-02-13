@@ -14,7 +14,6 @@ class User extends CI_Controller {
         $session_data = $this->session->userdata('user_data');
         if (isset($session_data) && ($session_data['UID'])) {
             $data['artist_data'] = $this->User_model->get_data();
-//                    print "<pre>";print_r($data['artist_data']);exit;
             $data['page_title'] = "User List";
             $data['user_data'] = $session_data;
             $data['page'] = "list_user";
@@ -323,6 +322,7 @@ class User extends CI_Controller {
         if (isset($session_data) && ($session_data['UID'])) {
             if (!empty($user_id)) {
                 $data['formdata'] = $this->User_model->get_single($user_id);
+                $data['userType'] = $this->UserType_model->all_user_type();
                 $data['page_title'] = "Edit Songs";
                 $data['page'] = 'add_user';
                 $data['user_data'] = $session_data;

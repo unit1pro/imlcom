@@ -11,7 +11,6 @@ class UserType_model extends CI_Model {
     function insert_data($data) {
 
         $this->db->insert($this->table, $data);
-//            print_r($this->db->last_query());exit;
         return $this->db->insert_id();
     }
 
@@ -25,8 +24,19 @@ class UserType_model extends CI_Model {
         }
         $query = $this->db->get();
         $result = $query->result_array();
-        
-//        print "<pre>";print_r($result);exit;
+        return $result;
+    }
+    
+    function all_user_type() {
+        $this->db->select('User_Type');
+        $this->db->from($this->table);
+        if (!empty($conditions)) {
+            foreach ($conditions as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        $query = $this->db->get();
+        $result = $query->result_array();
         return $result;
     }
 
@@ -38,6 +48,33 @@ class UserType_model extends CI_Model {
         }
         $this->db->update($this->table, $data);
         return TRUE;
+    }
+    
+    function get_userType_fromSong($song_id){
+        $this->db->select('User_Type');
+        $this->db->from('user_type');
+        $this->db->join('usermain', 'usermain.UserType = user_type.ID');
+        $this->db->join('user_song', 'user_song.UID = usermain.UID');
+        $this->db->where('user_song.SongsID ', $song_id);
+        $query = $this->db->get();
+        if ($query !== FALSE && $query->num_rows() == 1) {
+            return $result = $query->result_array();
+        } else {
+            return false;
+        }
+    }
+    
+    function get_userType_fromID($user_id){
+        $this->db->select('User_Type');
+        $this->db->from('user_type');
+        $this->db->join('usermain', 'usermain.UserType = user_type.ID');
+        $this->db->where('usermain.UID', $user_id);
+        $query = $this->db->get();
+        if ($query !== FALSE && $query->num_rows() == 1) {
+            return $result = $query->result_array();
+        } else {
+            return false;
+        }
     }
 
 }

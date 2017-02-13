@@ -321,17 +321,8 @@ class Songs extends CI_Controller {
                     $data['page_title'] = "List Songs";
                     $data['page'] = 'list_songs';
                     redirect('Songs', 'refresh');
-//                    $sess_array = array();
-//                    $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
-//                    $data['songCats'] = $this->SongCat_model->get_data();
-//                    $data['success'] = true;
-//                    $data['msg'] = "song added";
-//                    $data['page_title'] = "Add Songs";
-//                    $data['page'] = 'add_songs';
-//                    $data['user_data'] = $session_data;
-//                    $this->load->view('backend/page', $data);
                 } else {
-                    $data['artists'] = $this->User_model->get_data(array('UserType' => '3'));
+                    $data['all_user_type'] = $this->UserType_model->all_user_type();
                     $data['songCats'] = $this->SongCat_model->get_data();
                     $data['success'] = false;
                     $data['msg'] = "song not added";
@@ -341,7 +332,7 @@ class Songs extends CI_Controller {
                     $this->load->view('backend/page', $data);
                 }
             } else {
-                $data['user_types'] = $this->UserType_model->get();
+                $data['all_user_type'] = $this->UserType_model->all_user_type();
                 $data['songCats'] = $this->SongCat_model->get_data();
                 $data['page_title'] = "Add Songs";
                 $data['page'] = 'add_songs';
@@ -359,7 +350,8 @@ class Songs extends CI_Controller {
         if (isset($session_data) && ($session_data['UID'])) {
             if (!empty($song_id)) {
                 $data['formdata'] = $this->Songs_model->get_single($song_id);
-                $data['user_types'] = $this->UserType_model->get();
+                $data['all_user_type'] = $this->UserType_model->all_user_type();
+                $data['song_user_type'] = $this->UserType_model->get_userType_fromSong($song_id);
                 $data['songCats'] = $this->SongCat_model->get_data();
                 $data['page_title'] = "Edit Songs";
                 $data['page'] = 'add_songs';

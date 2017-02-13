@@ -145,7 +145,7 @@
                                         if (isset($userType) && !empty($userType)) {
                                             foreach ($userType as $uType) {
                                                 ?>
-                                                <option value="<?php echo $uType['ID'] ?>"><?php echo $uType['User_Type'] ?></option>
+                                                <option value="<?php echo $uType['User_Type'] ?>"><?php echo $uType['User_Type'] ?></option>
                                                 <?php
                                             }
                                         }
@@ -174,6 +174,27 @@
     </div>
 </div>
 
+<script>
+    $( document ).ready(function() {
+        var loaded_dob = $('#DOB').val();
+        var loaded_doj = $('#DOJ').val();
+        if(loaded_dob === '0000-00-00'){
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            var btoday = d.getFullYear() + '/' + ((''+month).length<2 ? '0' : '') + month + '/' + ((''+day).length<2 ? '0' : '') + day;
+            $('#DOB').val(btoday);            
+        }
+        
+        if(loaded_doj === '0000-00-00'){
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            var jtoday = d.getFullYear() + '/' + ((''+month).length<2 ? '0' : '') + month + '/' + ((''+day).length<2 ? '0' : '') + day;
+            $('#DOJ').val(jtoday);            
+        }
+    });
+</script>
 <style>
     .btn-file {
         position: relative;
