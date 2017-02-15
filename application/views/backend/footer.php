@@ -447,7 +447,7 @@
 
 <script>
   $(document).ready(function() {
-    $('input[name=Date]').daterangepicker({
+    $('input[name=dob],input[name=doj]').daterangepicker({
       locale: {
         format: 'YYYY-MM-DD'
       },

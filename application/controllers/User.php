@@ -177,8 +177,9 @@ class User extends CI_Controller {
                     'City' => isset($formdata['City']) && $formdata['City'] ? $formdata['City'] : '',
                     'State' => isset($formdata['State']) && $formdata['State'] ? $formdata['State'] : '',
                     'Country' => isset($formdata['Country']) && $formdata['Country'] ? $formdata['Country'] : '',
-                    'DOB' => isset($formdata['DOB']) && $formdata['DOB'] ? date('YY-mm-dd', strtotime($formdata['DOB'])) : '',
-                    'DateJoined' => isset($formdata['DateJoined']) && $formdata['DateJoined'] ? date('YY-mm-dd', strtotime($formdata['DateJoined'])) : '',
+//                    'DOB' => isset($formdata['dob']) && $formdata['dob'] ? date('YY-mm-dd', strtotime($formdata['dob'])) : '',
+                    'DOB' => isset($formdata['dob']) && $formdata['dob'] ? $formdata['dob'] : '',
+                    'DateJoined' => isset($formdata['doj']) && $formdata['doj'] ? $formdata['doj'] : '',
                     'Photo' => isset($formdata['Photo']) && $formdata['Photo'] ? $formdata['Photo'] : '',
                     'Website' => isset($formdata['Website']) && $formdata['Website'] ? $formdata['Website'] : '',
                     'UserType' => isset($formdata['UserType']) && $formdata['UserType'] ? $formdata['UserType'] : '',
@@ -187,6 +188,9 @@ class User extends CI_Controller {
                     'Updated_By' => $session_data['UID'],
                 );
 
+//                print "<pre>";
+//                print_r($artist_data);
+//                exit;
                 $artist_id = $artist_data['UID'];
                 $result = $this->User_model->update_user($artist_id, $artist_data);
 
